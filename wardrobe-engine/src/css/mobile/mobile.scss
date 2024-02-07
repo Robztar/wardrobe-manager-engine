@@ -1,0 +1,11 @@
+@media screen and (max-width: 450px){
+     ::-webkit-scrollbar{
+          width: 0.15rem;
+          height: 0.15rem;
+     }
+     ::-webkit-scrollbar-thumb{
+          width: 0.1rem;
+          height: 0.1rem;
+          border-radius: 3px;
+     }
+}
