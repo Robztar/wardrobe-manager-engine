@@ -33,23 +33,18 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  box-sizing: border-box;
+  border-radius: 0;
+  border: none;
+  padding: 0.6rem;
+  font-size: 1rem;
+  height: 2.2rem;
+  color: #000020;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-button:hover {
-  border-color: #646cff;
 }
 
 button:focus, button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -90,8 +85,8 @@ button:focus, button:focus-visible {
   top: 0;
   width: 100vw;
   height: 4rem;
-  z-index: 3;
-  background: #e0fcff;
+  z-index: 4;
+  background: rgba(224, 252, 255, 0.5019607843);
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3764705882);
 }
 
@@ -182,8 +177,9 @@ button:focus, button:focus-visible {
   width: 10rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 1rem;
+  padding-left: 1rem;
   text-decoration: none;
   color: #e0fcff;
   cursor: pointer;
@@ -211,12 +207,12 @@ button:focus, button:focus-visible {
 }
 
 .side-page-btn.active .side-page-icon {
-  color: rgb(0, 255, 200);
-  border-bottom: solid 1px rgb(0, 255, 200);
+  color: #00ffc8;
+  border-bottom: solid 1px #00ffc8;
 }
 
 .side-page-btn.active .side-page-label {
-  border-bottom: solid 1px rgb(0, 255, 200);
+  border-bottom: solid 1px #00ffc8;
 }
 
 .navbar-cont.active {
@@ -254,43 +250,128 @@ button:focus, button:focus-visible {
 }
 
 .dash-cont {
-  margin-top: 4rem;
-  height: calc(100vh - 4rem);
+  height: 100vh;
   z-index: 3;
   display: flex;
   flex-direction: column;
 }
 
 .glass-display {
-  height: 30%;
-  background: rgba(224, 252, 255, 0.062745098);
+  z-index: 3;
+  height: 50%;
+  background: rgba(224, 252, 255, 0.1882352941);
   -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
+  transition: 0.75s ease-in-out;
 }
 
 .dash-body {
   z-index: 3;
+  position: relative;
   background: #e0fcff;
   color: #000020;
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3764705882);
-  height: 70%;
+  height: 50%;
   box-sizing: border-box;
-  padding: 2rem;
-  border-top-left-radius: 5rem;
-  border-top-right-radius: 5rem;
+  padding: 4rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: 0.75s ease-in-out;
+}
+
+.dash-inv-border {
+  z-index: 3;
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  top: -15vh;
+  left: 0;
+  border-radius: 50% 0% 50% 50%/0% 0% 50% 50%;
+  box-shadow: 0 7.2vh 0 0 #e0fcff, inset 0px -10px 20px -25px rgba(0, 0, 32, 0.3764705882);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.75s ease-in-out;
+}
+.dash-inv-border .fa-arrow-down {
+  box-sizing: border-box;
+  height: 3rem;
+  width: 3rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 3px solid #000020;
+  cursor: pointer;
+  transition: 0.5s;
+  transition: height 0.25s, width 0.25s;
+}
+.dash-inv-border .fa-arrow-down:hover {
+  height: 3.3rem;
+  width: 3.3rem;
+  font-size: 1.7rem;
+  background: rgba(0, 0, 32, 0.1882352941);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  transition: 0.25s;
+}
+
+.dash-outfits-window {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.dash-outfit-header {
+  border-top: 1px solid #000020;
+  height: 2.2rem;
+  padding: 0 3rem;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+.dash-outfit-header h2 {
+  margin: 0;
+  box-sizing: border-box;
+  border-bottom: 2px solid #000020;
+}
+.dash-outfit-header i {
+  height: 2.2rem;
+  width: 2.2rem;
+  font-size: 1.3rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.dash-outfit-header .fa-plus {
+  display: flex;
+}
+.dash-outfit-header .fa-minus {
+  display: none;
+}
+
+.dash-outfits-cont {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  place-items: center;
+  width: 100%;
+  height: 15rem;
+  overflow: hidden;
 }
 
 .dash-card-cont {
-  height: 12rem;
-  width: 12rem;
-  display: flex;
+  height: 15rem;
+  width: 15rem;
+  display: none;
   align-items: center;
   justify-content: center;
+  margin: 0;
+}
+
+.card-preview {
+  display: flex;
 }
 
 .dash-card {
@@ -300,26 +381,170 @@ button:focus, button:focus-visible {
   border-radius: 20px;
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3137254902);
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
+  box-sizing: border-box;
   transition: 0.5s;
-  cursor: pointer;
+}
+
+.dash-card-overlay {
+  position: absolute;
+  height: 10rem;
+  width: 10rem;
+  background: transparent;
+  visibility: hidden;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  row-gap: 0.5rem;
+  transition: 0.5s;
+}
+.dash-card-overlay button {
+  visibility: hidden;
 }
 
 .dash-card:hover {
-  background: rgb(0, 255, 200);
   height: 11.5rem;
   width: 11.5rem;
+  border-radius: 10px;
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3137254902);
   transition: 0.5s;
 }
+.dash-card:hover .dash-card-overlay {
+  height: 11.5rem;
+  width: 11.5rem;
+  visibility: visible;
+  background: rgba(0, 0, 32, 0.1882352941);
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.dash-card:hover .dash-card-overlay button {
+  visibility: visible;
+}
 
-.fit-cont {
+.dash-card-label {
+  padding: 0.5rem;
+  line-height: 1.1;
+  text-align: center;
+}
+.dash-card-label p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.dash-card-label small {
+  font-size: 0.8rem;
+}
+
+.open-proj {
+  background: #00ffc8;
+  transition: 0.25s;
+}
+
+.open-proj:hover {
+  background: rgba(0, 255, 200, 0.5019607843);
+  box-shadow: 0 0 0 3px rgba(0, 255, 200, 0.5019607843);
+  border-radius: 1px;
+  transition: 0.25s;
+}
+
+.open-profile {
+  background: transparent;
+  border: 2px solid #00ffc8;
+  transition: 0.25s;
+}
+
+.open-profile:hover {
+  background: rgba(224, 252, 255, 0.5019607843);
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(224, 252, 255, 0.5019607843);
+  border-radius: 1px;
+  transition: 0.25s;
+}
+
+.dash-cont.active .glass-display {
+  height: 0;
+  transition: 0.75s ease-out;
+}
+.dash-cont.active .dash-body {
+  overflow-y: auto;
+  height: 100%;
+  padding: 8rem 2rem 2rem;
+  transition: 0.75s ease-out;
+}
+.dash-cont.active .dash-inv-border {
+  height: 5rem;
+  top: 4rem;
+  border-radius: 0;
+  box-shadow: none;
+  transition: 0.75s ease-out;
+}
+.dash-cont.active .dash-inv-border .fa-arrow-down {
+  transform: rotateZ(180deg);
+  transition: 0.5s;
+}
+.dash-cont.active .dash-outfits-window {
+  padding-top: 1rem;
+}
+.dash-cont.active .dash-outfits-window.active .dash-outfits-cont {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.dash-cont.active .dash-outfits-window.active .dash-card-cont {
+  display: flex;
+}
+.dash-cont.active .dash-outfits-window.active .fa-plus {
+  display: none;
+}
+.dash-cont.active .dash-outfits-window.active .fa-minus {
+  display: flex;
+}
+.dash-cont.active .dash-card {
+  height: 14rem;
+  width: 14rem;
+  border-radius: 10px;
+  justify-content: start;
+  transition: 0.5s;
+}
+.dash-cont.active .dash-card-label {
+  line-height: 1.2;
+  text-align: left;
+  padding: 0.75rem;
+}
+.dash-cont.active .dash-card-label p {
+  font-size: 1rem;
+}
+.dash-cont.active .dash-card-overlay {
+  height: 14rem;
+  width: 14rem;
+  border-radius: 10px;
+  row-gap: 0.75rem;
+  justify-content: center;
+  transition: 0.5s;
+}
+.dash-cont.active .dash-card:hover {
+  height: 14rem;
+  width: 14rem;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.dash-cont.active .dash-card:hover .dash-card-overlay {
+  height: 14rem;
+  width: 14rem;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.fitter-cont {
   z-index: 2;
   position: absolute;
   background: pink;
-  top: 4rem;
-  height: 40vh;
+  top: 0;
+  height: 50vh;
   width: 100vw;
   display: flex;
   flex-direction: column;

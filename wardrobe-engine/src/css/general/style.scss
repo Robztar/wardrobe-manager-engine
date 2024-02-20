@@ -1,6 +1,7 @@
 $dark: #000020;
 $light: #e0fcff;
-$accent: rgb(0, 255, 200);
+$accent: #00ffc8;
+// $accent: #ffd700;
 
 :root {
      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -38,21 +39,17 @@ h1 {
 }
 
 button {
-     border-radius: 8px;
-     border: 1px solid transparent;
-     padding: 0.6em 1.2em;
-     font-size: 1em;
-     font-weight: 500;
-     font-family: inherit;
-     background-color: #1a1a1a;
+     box-sizing: border-box;
+     border-radius: 0;
+     border: none;
+     padding: 0.6rem;
+     font-size: 1rem;
+     height: 2.2rem;
+     color: $dark;
      cursor: pointer;
-     transition: border-color 0.25s;
-}
-button:hover {
-     border-color: #646cff;
 }
 button:focus, button:focus-visible {
-     outline: 4px auto -webkit-focus-ring-color;
+     outline: none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -76,6 +73,7 @@ button:focus, button:focus-visible {
 ::-webkit-scrollbar-thumb{
      width: 0.3rem;
      height: 0.3rem;
+     // background: $accent;
      background: #ffffffaa;
      border-radius: 5px;
 }
@@ -89,17 +87,18 @@ button:focus, button:focus-visible {
      box-sizing: border-box;
      overflow-y: auto;
 }
-// Header Styling
+// -- Header Styling
 .header-cont{
      position: absolute;
      top: 0;
      width: 100vw;
      height: 4rem;
-     z-index: 3;
-     background: $light;
+     z-index: 4;
+     // background: $light;
+     background: #e0fcff80;
      box-shadow: 2px 2px 16px #00002060;
 }
-// Navbar Styling
+// -- Navbar Styling
 .navbar-cont{
      position: absolute;
      box-sizing: border-box;
@@ -120,7 +119,6 @@ button:focus, button:focus-visible {
      box-shadow: 2px 2px 16px #00002080;
      transition: 0.5s;
 }
-
 // - Menu toggle (Hamburger Style)
 .menu-toggle-cont{
      // background: red;
@@ -182,8 +180,9 @@ button:focus, button:focus-visible {
      width: 10rem;
      display: flex;
      align-items: center;
-     justify-content: center;
+     justify-content: start;
      gap: 1rem;
+     padding-left: 1rem;
      text-decoration: none;
      color: $light;
      cursor: pointer;
@@ -240,44 +239,123 @@ button:focus, button:focus-visible {
      }
 }
 
-// Dashboard Styling
+// -- Dashboard Styling
 .dash-cont{
-     margin-top: 4rem;
-     height: calc(100vh - 4rem);
+     height: 100vh;
      z-index: 3;
      display: flex;
      flex-direction: column;
 }
 .glass-display{
-     height: 30%;
-     // background: #e0fcff30;
-     background: #e0fcff10;
+     z-index: 3;
+     height: 50%;
+     background: #e0fcff30;
      backdrop-filter: blur(1px);
+     transition: 0.75s ease-in-out;
 }
 .dash-body{
      z-index: 3;
+     position: relative;
      background: $light;
      color: $dark;
      box-shadow: 2px 2px 16px #00002060;
-     height: 70%;
+     height: 50%;
      box-sizing: border-box;
-     padding: 2rem;
-     border-top-left-radius: 5rem;
-     border-top-right-radius: 5rem;
+     padding: 4rem 2rem 2rem;
+     display: flex;
+     flex-direction: column;
+     transition: 0.75s ease-in-out;
+}
+.dash-inv-border{
+     z-index: 3;
+     position: absolute;
+     width: 100%;
+     height: 15vh;
+     top: -15vh;
+     left: 0;
+     border-radius: 50% 0% 50% 50% / 0% 0% 50% 50%;
+     box-shadow: 0 7.2vh 0 0 $light,
+          inset 0px -10px 20px -25px #00002060;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     transition: 0.75s ease-in-out;
 
+     .fa-arrow-down{
+          box-sizing: border-box;
+          height: 3rem;
+          width: 3rem;
+          font-size: 1.5rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          border: 3px solid #000020;
+          cursor: pointer;
+          transition: 0.5s;
+          transition: height 0.25s, width 0.25s;
+     }
+     .fa-arrow-down:hover{
+          height: 3.3rem;
+          width: 3.3rem;
+          font-size: 1.7rem;
+          background: #00002030;
+          backdrop-filter: blur(4px);
+          transition: 0.25s;
+     }
+}
+// - Dash Cards
+.dash-outfits-window{
+     // background: purple;
+     display: flex;
+     flex-direction: column;
+     margin-top: 1rem;
+
+}
+.dash-outfit-header{
+     border-top: 1px solid $dark;
+     height: 2.2rem;
+     padding: 0 3rem;
      display: flex;
      flex-direction: row;
-     flex-wrap: wrap;
-     gap: 1rem;
-     justify-content: space-around;
+     justify-content: space-between;
+     h2{
+          margin: 0;
+          box-sizing: border-box;
+          border-bottom: 2px solid $dark;
+     }
+     i{
+          height: 2.2rem;
+          width: 2.2rem;
+          font-size: 1.3rem;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+     }
+     .fa-plus{display: flex;}
+     .fa-minus{display: none;}
+}
+.dash-outfits-cont{
+     // background: green;
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     align-items: center;
+     place-items: center;
+     width: 100%;
+     height: 15rem;
+     overflow: hidden;
 }
 .dash-card-cont{
-     height: 12rem;
-     width: 12rem;
-     display: flex;
+     // background: blue;
+     height: 15rem;
+     width: 15rem;
+     display: none;
      align-items: center;
      justify-content: center;
+     margin: 0;
 }
+.card-preview{ display: flex; }
+
 .dash-card{
      background: white;
      height: 10rem;
@@ -285,28 +363,164 @@ button:focus, button:focus-visible {
      border-radius: 20px;
      box-shadow: 2px 2px 16px #00002050;
      display: flex;
-     align-items: center;
+     
+     align-items: end;
      justify-content: center;
+     box-sizing: border-box;
      transition: 0.5s;
-     cursor: pointer;
+}
+.dash-card-overlay{
+     position: absolute;
+     height: 10rem;
+     width: 10rem;
+     background: transparent;
+     visibility: hidden;
+     border-radius: 20px;
+
+     box-sizing: border-box;
+     padding: 2rem 0;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: start;
+     row-gap: 0.5rem;
+     transition: 0.5s;
+     button{ visibility: hidden; }
 }
 .dash-card:hover{
-     background: $accent;
      height: 11.5rem;
      width: 11.5rem;
+     border-radius: 10px;
      box-shadow: 2px 2px 16px #00002050;
      transition: 0.5s;
+
+     .dash-card-overlay{
+          height: 11.5rem;
+          width: 11.5rem;
+          visibility: visible;
+          background: #00002030;
+          border-radius: 10px;
+          transition: 0.5s;
+          button{ visibility: visible; }
+     }
+}
+.dash-card-label{
+     padding: 0.5rem;
+     line-height: 1.1;
+     text-align: center;
+     p{
+          margin: 0;
+          font-size: 0.95rem;
+     }
+     small{
+          font-size: 0.8rem;
+     }
+}
+// - Project buttons
+.open-proj{
+     background: $accent;
+     transition: 0.25s;
+}
+.open-proj:hover{
+     background: #00ffc880;
+     box-shadow: 0 0 0 3px #00ffc880;
+     // border-radius: 0;
+     border-radius: 1px;
+     transition: 0.25s;
+}
+.open-profile{
+     background: transparent;
+     border: 2px solid $accent;
+     transition: 0.25s;
+}
+.open-profile:hover{
+     background: #e0fcff80;
+     border-color: transparent;
+     box-shadow: 0 0 0 3px #e0fcff80;
+     border-radius: 1px;
+     transition: 0.25s;
+}
+.dash-cont.active{
+     .glass-display{
+          height: 0;
+          transition: 0.75s ease-out;
+     }
+     .dash-body{
+          overflow-y: auto;
+          height: 100%;
+          padding: 8rem 2rem 2rem;
+          transition: 0.75s ease-out;
+     }
+     .dash-inv-border{
+          height: 5rem;
+          top: 4rem;
+          border-radius: 0;
+          box-shadow: none;
+          transition: 0.75s ease-out;
+     
+          .fa-arrow-down{
+               transform: rotateZ(180deg);
+               transition: 0.5s;
+          }
+     }
+     .dash-outfits-window{
+          padding-top: 1rem;
+     }
+     .dash-outfits-window.active{
+          .dash-outfits-cont{
+               width: 100%;
+               height: fit-content;
+          }
+          .dash-card-cont{
+               display: flex;
+          }
+          .fa-plus{display: none;}
+          .fa-minus{display: flex;}
+     }
+     .dash-card{
+          // background: white;
+          height: 14rem;
+          width: 14rem;
+          border-radius: 10px;
+          justify-content: start;
+          transition: 0.5s;
+     }
+     .dash-card-label{
+          line-height: 1.2;
+          text-align: left;
+          padding: 0.75rem;
+          p{ font-size: 1rem; }
+     }
+     .dash-card-overlay{
+          height: 14rem;
+          width: 14rem;
+          border-radius: 10px;
+          row-gap: 0.75rem;
+          justify-content: center;
+          transition: 0.5s;
+     }
+     .dash-card:hover{
+          // background: $accent;
+          height: 14rem;
+          width: 14rem;
+          border-radius: 10px;
+          .dash-card-overlay{
+               height: 14rem;
+               width: 14rem;
+               border-radius: 10px;
+               transition: 0.5s;
+          }
+          transition: 0.5s;
+     }
 }
 
-// Oufitter Styling
-.fit-cont{
+// -- Oufitter Styling
+.fitter-cont{
      z-index: 2;
      position: absolute;
      background: pink;
-     // margin-top: 4rem;
-     top: 4rem;
-     // height: calc(100vh - 4rem);
-     height: 40vh;
+     top: 0;
+     height: 50vh;
      width: 100vw;
      display: flex;
      flex-direction: column;

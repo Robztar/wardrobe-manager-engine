@@ -22,8 +22,12 @@ export const Nav = () =>{
                          <div className='side-page-label'>Dashboard</div>
                     </a>
                     <a className='side-page-btn'>
-                         <div className='side-page-icon'><i className="fa-solid fa-book"></i></div>
-                         <div className='side-page-label'>Outfits</div>
+                         <div className='side-page-icon'><i className="fa-solid fa-info-circle"></i></div>
+                         <div className='side-page-label'>About</div>
+                    </a>
+                    <a className='side-page-btn'>
+                         <div className='side-page-icon'><i className="fa-solid fa-gear"></i></div>
+                         <div className='side-page-label'>Settings</div>
                     </a>
                </div>
           </div>
