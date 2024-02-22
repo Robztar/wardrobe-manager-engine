@@ -6,12 +6,14 @@ interface UIStates {
      page: string
      colorScheme: boolean
      dashState: boolean
-     outfitWindow: boolean
+     outfitList: boolean
+     outfitterState: boolean
      switchMenu: () => void
      setPage: (by: string) => void
      setScheme: () => void
      setDash: () => void
-     setOutfitWindow: () => void
+     setOutfitList: () => void
+     setOutfitter: () => void
 }
 interface OutfitStates {
      outfit: string
@@ -26,7 +28,8 @@ export const uiStore = create<UIStates>()(
                page: 'dash',  // stores the selected window
                colorScheme: true,
                dashState: false,
-               outfitWindow: false,
+               outfitList: false,
+               outfitterState: false,
                switchMenu: () => {
                     set((state) => ({menu: !state.menu }))
                },
@@ -40,8 +43,11 @@ export const uiStore = create<UIStates>()(
                setDash: () => {
                     set((state) => ({dashState: !state.dashState }))
                },
-               setOutfitWindow: () => {
-                    set((state) => ({outfitWindow: !state.outfitWindow }))
+               setOutfitList: () => {
+                    set((state) => ({outfitList: !state.outfitList }))
+               },
+               setOutfitter: () => {
+                    set((state) => ({outfitterState: !state.outfitterState }))
                },
           }),{ name: 'uistate' }
      )

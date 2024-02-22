@@ -1,13 +1,27 @@
-import { uiStore, outfitStore } from "../hooks/robeStore"
+import { uiStore } from "../hooks/robeStore"
 
 // export const Dash = ({ aProp }: { aProp: React.FC }) =>{
 export const Dash = ({ aProp }: { aProp: number }) =>{
-     const {dashState, outfitWindow, setDash, setOutfitWindow} = uiStore();
+     const {dashState, outfitList, outfitterState, setDash, setOutfitList, setOutfitter} = uiStore();
      const placeholder = aProp;
 
      return(
-          <div className={`dash-cont ${dashState? 'active':''}`}>
-               <div className="glass-display"></div>
+          <div className={`dash-cont 
+               ${dashState? 'active':''} 
+               ${outfitterState? 'inactive':''}`}
+          >
+               <div className="glass-display">
+                    <button className="open-profile"
+                         onClick={()=>{
+                              setOutfitter()
+                         }}
+                    >Show Details</button>
+                    <button className="open-proj"
+                         onClick={()=>{
+                              setOutfitter()
+                         }}
+                    >Open Project</button>
+               </div>
                <div className="dash-body">
                     <div className="dash-inv-border">
                          <i 
@@ -17,19 +31,19 @@ export const Dash = ({ aProp }: { aProp: number }) =>{
                               }}
                          ></i>
                     </div>
-                    <div className={`dash-outfits-window ${outfitWindow? 'active':''}`}>
+                    <div className={`dash-outfits-window ${outfitList? 'active':''}`}>
                          <div className="dash-outfit-header">
                               <h2>Your projects</h2>
                               <i className="fas fa-plus"
                                    onClick={()=>{
-                                        setOutfitWindow()
+                                        setOutfitList()
                                         if(!dashState)
                                              setDash()
                                    }}
                               ></i>
                               <i className="fas fa-minus"
                                    onClick={()=>{
-                                        setOutfitWindow()
+                                        setOutfitList()
                                         if(!dashState)
                                              setDash()
                                    }}
@@ -81,8 +95,6 @@ export const Dash = ({ aProp }: { aProp: number }) =>{
                               </div>
                          </div>
                     </div>
-                    
-                    
                </div>
           </div>
      )

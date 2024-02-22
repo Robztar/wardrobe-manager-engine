@@ -31,6 +31,7 @@ body {
      place-items: center;
      min-width: 320px;
      min-height: 100vh;
+     overflow: hidden;
 }
 
 h1 {
@@ -85,7 +86,8 @@ button:focus, button:focus-visible {
      height: 100vh;
      width: 100vw;
      box-sizing: border-box;
-     overflow-y: auto;
+     // overflow-y: auto;
+     overflow: hidden;
 }
 // -- Header Styling
 .header-cont{
@@ -247,15 +249,28 @@ button:focus, button:focus-visible {
      flex-direction: column;
 }
 .glass-display{
+     position: absolute;
+     height: 50vh;
+     width: 100vw;
+     top: 0;
      z-index: 3;
-     height: 50%;
+     box-sizing: border-box;
+     display: flex;
+     align-items: center;
+     justify-content: start;
+     gap: 3vw;
+     padding-left: 5rem;
+
      background: #e0fcff30;
      backdrop-filter: blur(1px);
      transition: 0.75s ease-in-out;
 }
 .dash-body{
+     position: absolute;
+     height: 50vh;
+     top: 50vh;
+     width: 100vw;
      z-index: 3;
-     position: relative;
      background: $light;
      color: $dark;
      box-shadow: 2px 2px 16px #00002060;
@@ -447,7 +462,8 @@ button:focus, button:focus-visible {
      }
      .dash-body{
           overflow-y: auto;
-          height: 100%;
+          height: 100vh;
+          top: 0;
           padding: 8rem 2rem 2rem;
           transition: 0.75s ease-out;
      }
@@ -513,15 +529,75 @@ button:focus, button:focus-visible {
           transition: 0.5s;
      }
 }
+.dash-cont.inactive{
+     .glass-display{
+          height: 0;
+          transition: 0.75s ease-out;
+          div,button{
+               display: none;
+          }
+     }
+     .dash-body{
+          height: 0;
+          padding: 0;
+          top: 100vh;
+          transition: 0.75s ease-out;
+     }
+     .dash-inv-border{
+          height: 0;
+          top: 4rem;
+          border-radius: 0;
+          box-shadow: none;
+          transition: 0.75s ease-out;
+     
+          .fa-arrow-down{
+               opacity: 0;
+               transition: 0.5s;
+          }
+     }
+}
 
 // -- Oufitter Styling
 .fitter-cont{
      z-index: 2;
      position: absolute;
-     background: pink;
+     background: $light;
      top: 0;
      height: 50vh;
      width: 100vw;
      display: flex;
      flex-direction: column;
+     transition: 1s ease-in-out;
+}
+.close-outfitter{
+     z-index: 3;
+     position: absolute;
+     top: 4rem;
+     right: 4rem;
+     display: none;
+     place-content: center;
+     // background: red;
+     color: #ff6666;
+     height: 3.5rem;
+     width: 3.5rem;
+     font-size: 2.5rem;
+     cursor: pointer;
+}
+#outfit-canvas{
+     overflow: hidden;
+     height: 50vh;
+     width: 100%;
+     
+     transition: 0.75s ease;
+}
+.fitter-cont.active{
+     height: 100vh;
+     transition: 0.2s ease-in-out;
+     .close-outfitter{
+          display: grid;
+     }
+     .outfit-canvas{
+          height: 100vh;
+          transition: 0s;
+     }
 }
