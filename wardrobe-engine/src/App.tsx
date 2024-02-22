@@ -10,7 +10,7 @@ function App() {
     <div className='app-cont'>
       <Header />
       <Nav />
-      <Dash aProp={0} />
+      <Dash />
       <Outfitter />
     </div>
   )

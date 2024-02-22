@@ -369,7 +369,12 @@ button:focus, button:focus-visible {
      justify-content: center;
      margin: 0;
 }
-.card-preview{ display: flex; }
+.dash-card-cont:nth-child(1),
+.dash-card-cont:nth-child(2),
+.dash-card-cont:nth-child(3),
+.dash-card-cont:nth-child(4){
+     display: flex; 
+}
 
 .dash-card{
      background: white;
@@ -383,6 +388,9 @@ button:focus, button:focus-visible {
      justify-content: center;
      box-sizing: border-box;
      transition: 0.5s;
+}
+.create-card{
+     cursor: pointer;
 }
 .dash-card-overlay{
      position: absolute;
@@ -569,20 +577,29 @@ button:focus, button:focus-visible {
      flex-direction: column;
      transition: 1s ease-in-out;
 }
-.close-outfitter{
+.fitter-nav{
+     height: 3.5rem;
+     width: 100vw;
+     box-sizing: border-box;
      z-index: 3;
      position: absolute;
      top: 4rem;
-     right: 4rem;
      display: none;
-     place-content: center;
-     // background: red;
-     color: #ff6666;
-     height: 3.5rem;
-     width: 3.5rem;
-     font-size: 2.5rem;
-     cursor: pointer;
+     align-items: center;
+     justify-content: space-around;
+     background: white;
+     i{
+          height: 3.5rem;
+          width: 3.5rem;
+          font-size: 2.5rem;
+          display: grid;
+          place-content: center;
+          // background: green;
+          cursor: pointer;
+     }
 }
+.close-outfitter{ color: #ff6666; }
+.del-outfit{ color: red; }
 #outfit-canvas{
      overflow: hidden;
      height: 50vh;
@@ -593,9 +610,12 @@ button:focus, button:focus-visible {
 .fitter-cont.active{
      height: 100vh;
      transition: 0.2s ease-in-out;
-     .close-outfitter{
-          display: grid;
+     .fitter-nav{
+          display: flex;
      }
+     // .close-outfitter{
+     //      display: grid;
+     // }
      .outfit-canvas{
           height: 100vh;
           transition: 0s;

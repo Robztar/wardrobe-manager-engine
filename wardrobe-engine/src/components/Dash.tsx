@@ -1,9 +1,10 @@
-import { uiStore } from "../hooks/robeStore"
+import { uiStore } from "../hooks/uiStore"
+import { outfitStore } from "../hooks/outfitStore"
 
 // export const Dash = ({ aProp }: { aProp: React.FC }) =>{
-export const Dash = ({ aProp }: { aProp: number }) =>{
+export const Dash = () =>{
      const {dashState, outfitList, outfitterState, setDash, setOutfitList, setOutfitter} = uiStore();
-     const placeholder = aProp;
+     const {outfits, addOutfit, setActiveOutfit} = outfitStore();
 
      return(
           <div className={`dash-cont 
@@ -50,49 +51,53 @@ export const Dash = ({ aProp }: { aProp: number }) =>{
                               ></i>
                          </div>
                          <div className="dash-outfits-cont">
-                              <div className="dash-card-cont card-preview">
-                                   <div className="dash-card">
+                              <div className="dash-card-cont">
+                                   <div 
+                                        className="dash-card create-card"
+                                        onClick={()=>{
+                                             addOutfit('new-outfit')
+                                             setOutfitter()
+                                        }}
+                                   >
                                         <div className="dash-card-label">
                                              <p>Create Project</p>
                                         </div>
                                    </div>
                               </div>
-                              <div className="dash-card-cont card-preview">
-                                   <div className="dash-card">
-                                        <div className="dash-card-label">
-                                             <p>Outfit 1</p>
-                                             <small>DD/MM/YYYY</small>
+                              {outfits.map((key:any) =>{
+                                   const projName = 
+                                        key.name.charAt(0).toUpperCase() 
+                                        + key.name.slice(1);
+                                   const thisKey = key;
+                                   console.log('Name is '+key.name)
+                                   return(
+                                        <div 
+                                             className="dash-card-cont"
+                                             key={key}
+                                        >
+                                             <div className="dash-card">
+                                                  <div className="dash-card-label">
+                                                       <p>{projName}</p>
+                                                       <small>Last Modified: DD/MM/YYYY</small>
+                                                  </div>
+                                                  <div className="dash-card-overlay">
+                                                       <button className="open-proj" 
+                                                            onClick={()=>{
+                                                                 setActiveOutfit(thisKey)
+                                                                 setOutfitter()
+                                                            }}
+                                                       >Open Project</button>
+                                                       <button className="open-profile" 
+                                                            onClick={()=>{
+                                                                 setActiveOutfit(thisKey)
+                                                                 setOutfitter()
+                                                            }}
+                                                       >Show Details</button>
+                                                  </div>
+                                             </div>
                                         </div>
-                                        <div className="dash-card-overlay">
-                                             <button className="open-proj">Open Project</button>
-                                             <button className="open-profile">Show Details</button>
-                                        </div>
-                                   </div>
-                              </div>
-                              <div className="dash-card-cont card-preview">
-                                   <div className="dash-card">
-                                   <div className="dash-card-label">
-                                             <p>Outfit 1</p>
-                                             <small>DD/MM/YYYY</small>
-                                        </div>
-                                        <div className="dash-card-overlay">
-                                             <button className="open-proj">Open Project</button>
-                                             <button className="open-profile">Show Details</button>
-                                        </div>
-                                   </div>
-                              </div>
-                              <div className="dash-card-cont card-preview">
-                                   <div className="dash-card"></div>
-                              </div>
-                              <div className="dash-card-cont">
-                                   <div className="dash-card"></div>
-                              </div>
-                              <div className="dash-card-cont">
-                                   <div className="dash-card"></div>
-                              </div>
-                              <div className="dash-card-cont">
-                                   <div className="dash-card"></div>
-                              </div>
+                                   )
+                              })}
                          </div>
                     </div>
                </div>

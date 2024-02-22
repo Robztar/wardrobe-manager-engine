@@ -383,7 +383,10 @@ button:focus, button:focus-visible {
   margin: 0;
 }
 
-.card-preview {
+.dash-card-cont:nth-child(1),
+.dash-card-cont:nth-child(2),
+.dash-card-cont:nth-child(3),
+.dash-card-cont:nth-child(4) {
   display: flex;
 }
 
@@ -398,6 +401,10 @@ button:focus, button:focus-visible {
   justify-content: center;
   box-sizing: border-box;
   transition: 0.5s;
+}
+
+.create-card {
+  cursor: pointer;
 }
 
 .dash-card-overlay {
@@ -590,18 +597,33 @@ button:focus, button:focus-visible {
   transition: 1s ease-in-out;
 }
 
-.close-outfitter {
+.fitter-nav {
+  height: 3.5rem;
+  width: 100vw;
+  box-sizing: border-box;
   z-index: 3;
   position: absolute;
   top: 4rem;
-  right: 4rem;
   display: none;
-  place-content: center;
-  color: #ff6666;
+  align-items: center;
+  justify-content: space-around;
+  background: white;
+}
+.fitter-nav i {
   height: 3.5rem;
   width: 3.5rem;
   font-size: 2.5rem;
+  display: grid;
+  place-content: center;
   cursor: pointer;
+}
+
+.close-outfitter {
+  color: #ff6666;
+}
+
+.del-outfit {
+  color: red;
 }
 
 #outfit-canvas {
@@ -615,8 +637,8 @@ button:focus, button:focus-visible {
   height: 100vh;
   transition: 0.2s ease-in-out;
 }
-.fitter-cont.active .close-outfitter {
-  display: grid;
+.fitter-cont.active .fitter-nav {
+  display: flex;
 }
 .fitter-cont.active .outfit-canvas {
   height: 100vh;

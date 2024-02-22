@@ -1,4 +1,4 @@
-import { uiStore } from "../hooks/robeStore"
+import { uiStore } from "../hooks/uiStore"
 
 export const Nav = () =>{
      const {menu, switchMenu} = uiStore();

@@ -1,64 +1,89 @@
 import { create } from 'zustand'
-import {persist} from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import { nanoid } from 'nanoid';
 
-interface UIStates {
-     menu: boolean
-     page: string
-     colorScheme: boolean
-     dashState: boolean
-     outfitList: boolean
-     outfitterState: boolean
-     switchMenu: () => void
-     setPage: (by: string) => void
-     setScheme: () => void
-     setDash: () => void
-     setOutfitList: () => void
-     setOutfitter: () => void
-}
 interface OutfitStates {
-     outfit: string
+     outfits: any
      initWind: () => void
+     addOutfit: (by: string) => void
+     saveOutfits: () => void
+     delOutfit: (by: string) => void
 }
 
-// Store for the web app's UI states
-export const uiStore = create<UIStates>()(
-     persist(
+// const getOutfitData = (key:string) => JSON.parse(window.localStorage?.getItem(key) || '{}');
+// const setOutfitData = (key:string, value:string[]) =>
+//      window.localStorage.setItem(key, JSON.stringify(value));
+const getOutfitData = (key:string) => localStorage.getItem(key);
+const setOutfitData = (key:string, value:any) => localStorage.setItem(key, JSON.stringify(value));
+// const getLocalStorage = (key: string) => JSON.parse(window.localStorage.getItem(key));
+// const setLocalStorage = (key: string, value: any) =>
+//      window.localStorage.setItem(key, JSON.stringify(value));
+
+export const outfitStore = create<OutfitStates>()(
+     // persist(
           (set) => ({
-               menu: false,
-               page: 'dash',  // stores the selected window
-               colorScheme: true,
-               dashState: false,
-               outfitList: false,
-               outfitterState: false,
-               switchMenu: () => {
-                    set((state) => ({menu: !state.menu }))
+               outfits: getOutfitData('outfits') || [], 
+
+               initWind: () => {
+                    set(() => ({ outfits: [''] }))
+                    console.log('reset all')
+               }, // resets all wind attributes
+               addOutfit: (name: string) => {
+                    set((state) => ({
+                         outfits: [...state.outfits,
+                              { 
+                                   key: nanoid(),      // unique project identifier
+                                   name: name,         // project name
+                              },
+                         ]
+                    }))
                },
-               setPage: (newPage) => {
-                    set(() => ({ page: newPage }))
-                    // console.log('store is working. elem is now: '+ newPage)
-               }, // activates the selected window
-               setScheme: () => {
-                    set((state) => ({colorScheme: !state.colorScheme }))
+               saveOutfits: () => set((state) => {
+                         if(typeof(Storage) !== undefined){
+                              setOutfitData('outfits', state.outfits)
+                         }
+               }),
+               delOutfit: (id: string) => {
+                    set((state) => ({
+                         // outfits: state.outfits.filter((outfit:any) => outfit.key !== id)
+                         outfits: state.outfits.filter((outfit:any) => outfit.name !== id)
+                    }));
                },
-               setDash: () => {
-                    set((state) => ({dashState: !state.dashState }))
-               },
-               setOutfitList: () => {
-                    set((state) => ({outfitList: !state.outfitList }))
-               },
-               setOutfitter: () => {
-                    set((state) => ({outfitterState: !state.outfitterState }))
-               },
-          }),{ name: 'uistate' }
+          }
+          // ),{ 
+          //      name: 'outfits', 
+          //      storage: createJSONStorage(() => localStorage),
+          // }
      )
+     
 );
 
-// 
-export const outfitStore = create<OutfitStates>()((set) => ({
-     outfit: '',
-     initWind: () => {
-          set(() => ({ outfit: '' }))
-          console.log('reset all')
-     }, // resets all wind attributes
-}));
+// export const useStore = create((set) => ({
+     // ortho: true, 
+     // iniPos: [0, 0, 0],
+     // projects: getLocalStorage('projects') || [],
 
+     // addProj: (name: string, scale: number, conv: string) => {
+     //      set((state) => ({
+     //           projects: [...state.projects,
+     //                { 
+     //                     key: nanoid(),      // unique project identifier
+     //                     name: name,         // project name
+     //                     scale: scale,       // measurement scale
+     //                     conversion: conv,   // measurement standard
+     //                },
+     //           ]
+     //      }));
+     // },
+     // saveProjects: () => {
+     //      set((state) => {
+     //           setLocalStorage('projects', state.projects);
+     //      });
+     // },
+
+     // delProject: (id: string) => {
+     //      set((state) => ({
+     //           projects: state.projects.filter((project) => project.key !== id)
+     //      }));
+     // },
+// }));
