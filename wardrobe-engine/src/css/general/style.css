@@ -585,16 +585,89 @@ button:focus, button:focus-visible {
   transition: 0.5s;
 }
 
+.dash-create-outfit {
+  display: none;
+  position: absolute;
+  background: grey;
+}
+
+.dash-create-outfit.active {
+  display: flex;
+  flex-direction: column;
+}
+
 .fitter-cont {
   z-index: 2;
   position: absolute;
   background: #e0fcff;
+  color: #000020;
   top: 0;
   height: 50vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   transition: 1s ease-in-out;
+}
+
+.outfit-profile {
+  margin-top: 4rem;
+  height: calc(100vh - 4rem);
+  width: 100vw;
+  overflow-y: auto;
+  display: none;
+  grid-template-columns: 30% 70%;
+}
+
+.close-outfitter {
+  color: #ff6666;
+}
+
+.del-outfit {
+  color: red;
+}
+
+.profile-sidebar-cont {
+  padding: 1rem;
+}
+
+.profile-sidebar {
+  background: rgba(255, 255, 255, 0.2078431373);
+  height: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 32, 0.2509803922);
+  padding: 0.5rem;
+}
+.profile-sidebar .outfit-name {
+  margin: 0;
+}
+.profile-sidebar .outfit-open {
+  background: #000020;
+  color: #e0fcff;
+  transition: 0.25s;
+}
+.profile-sidebar .outfit-open:hover {
+  background: #000055;
+  border-radius: 1px;
+  transition: 0.25s;
+}
+
+.profile-body-cont {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.profile-body-cont .close-outfitter {
+  align-self: flex-end;
+  height: 3.25rem;
+  width: 3.25rem;
+  font-size: 2.25rem;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+.profile-body {
+  background: yellow;
+  height: 100%;
 }
 
 .fitter-nav {
@@ -618,15 +691,12 @@ button:focus, button:focus-visible {
   cursor: pointer;
 }
 
-.close-outfitter {
-  color: #ff6666;
-}
-
-.del-outfit {
-  color: red;
+.nav-outfit-name {
+  background: papayawhip;
 }
 
 #outfit-canvas {
+  display: none;
   overflow: hidden;
   height: 50vh;
   width: 100%;
@@ -637,10 +707,14 @@ button:focus, button:focus-visible {
   height: 100vh;
   transition: 0.2s ease-in-out;
 }
-.fitter-cont.active .fitter-nav {
+.fitter-cont.active .outfit-profile.active {
+  display: grid;
+}
+.fitter-cont.active .fitter-nav.active {
   display: flex;
 }
-.fitter-cont.active .outfit-canvas {
+.fitter-cont.active #outfit-canvas.active {
+  display: block;
   height: 100vh;
   transition: 0s;
 }/*# sourceMappingURL=style.css.map */

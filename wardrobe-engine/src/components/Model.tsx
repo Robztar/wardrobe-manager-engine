@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import { outfitStore } from "../hooks/outfitStore"
 
+// import { Shiba } from '../3d-models/Shiba_deadpool'
+
 export const Model = ({ unique }: { unique: string }) =>{
      const {outfits} = outfitStore()
      let modelInstance = outfits.find((o:any) => o.key === unique)

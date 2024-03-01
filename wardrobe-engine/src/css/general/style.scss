@@ -21,9 +21,7 @@ a {
      color: #646cff;
      text-decoration: inherit;
 }
-a:hover {
-     color: #535bf2;
-}
+a:hover { color: #535bf2; }
 
 body {
      margin: 0;
@@ -49,9 +47,7 @@ button {
      color: $dark;
      cursor: pointer;
 }
-button:focus, button:focus-visible {
-     outline: none;
-}
+button:focus, button:focus-visible { outline: none; }
 
 @media (prefers-color-scheme: light) {
      :root {
@@ -564,12 +560,22 @@ button:focus, button:focus-visible {
           }
      }
 }
+.dash-create-outfit{
+     display: none;
+     position: absolute;
+     background: grey;
+}
+.dash-create-outfit.active{
+     display: flex;
+     flex-direction: column;
+}
 
 // -- Oufitter Styling
 .fitter-cont{
      z-index: 2;
      position: absolute;
      background: $light;
+     color: $dark;
      top: 0;
      height: 50vh;
      width: 100vw;
@@ -577,6 +583,70 @@ button:focus, button:focus-visible {
      flex-direction: column;
      transition: 1s ease-in-out;
 }
+.outfit-profile{
+     margin-top: 4rem;
+     height: calc(100vh - 4rem);
+     width: 100vw;
+     overflow-y: auto;
+     // background: lightsalmon;
+     display: none;
+     grid-template-columns: 30% 70%;
+}
+.close-outfitter{ color: #ff6666; }
+.del-outfit{ color: red; }
+.profile-sidebar-cont{
+     // background: chocolate;
+     // box-sizing: border-box;
+     padding: 1rem;
+}
+.profile-sidebar{
+     background: #ffffff35;
+     height: 100%;
+     // box-shadow: 0 0 5px 10px #000020;
+     box-shadow: 0 0 10px #00002040;
+     padding: 0.5rem;
+     .outfit-name{
+          margin: 0;
+     }
+     .outfit-open{
+          // background: $accent;
+          background: $dark;
+          color: $light;
+          transition: 0.25s;
+     }
+     .outfit-open:hover{
+          // background: #00ffc880;
+          // box-shadow: 0 0 0 3px #00ffc880;
+          background: #000055;
+          // box-shadow: 0 0 0 3px #00002080;
+          // border-radius: 0;
+          border-radius: 1px;
+          transition: 0.25s;
+     }
+}
+.profile-body-cont{
+     display: flex;
+     flex-direction: column;
+     .close-outfitter{
+          align-self: flex-end;
+          height: 3.25rem;
+          width: 3.25rem;
+          font-size: 2.25rem;
+          display: grid;
+          place-content: center;
+          cursor: pointer;
+     }
+     // background: chartreuse;
+     // box-sizing: border-box;
+     padding: 1rem;
+}
+
+.profile-body{
+     background: yellow;
+     height: 100%;
+     // box-shadow: 0 0 15px #00002060;
+}
+
 .fitter-nav{
      height: 3.5rem;
      width: 100vw;
@@ -598,9 +668,12 @@ button:focus, button:focus-visible {
           cursor: pointer;
      }
 }
-.close-outfitter{ color: #ff6666; }
-.del-outfit{ color: red; }
+
+.nav-outfit-name{
+     background: papayawhip;
+}
 #outfit-canvas{
+     display: none;
      overflow: hidden;
      height: 50vh;
      width: 100%;
@@ -610,13 +683,10 @@ button:focus, button:focus-visible {
 .fitter-cont.active{
      height: 100vh;
      transition: 0.2s ease-in-out;
-     .fitter-nav{
-          display: flex;
-     }
-     // .close-outfitter{
-     //      display: grid;
-     // }
-     .outfit-canvas{
+     .outfit-profile.active{ display: grid; }
+     .fitter-nav.active{  display: flex; }
+     #outfit-canvas.active{
+          display: block;
           height: 100vh;
           transition: 0s;
      }
