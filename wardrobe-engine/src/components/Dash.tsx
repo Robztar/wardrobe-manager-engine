@@ -4,27 +4,75 @@ import { outfitStore } from "../hooks/outfitStore"
 
 // export const Dash = ({ aProp }: { aProp: React.FC }) =>{
 export const Dash = () =>{
-     const {dashState, outfitList, outfitterState, setDash, setOutfitList, setOutfitter} = uiStore();
+     const {dashState, outfitList, outfitterState,
+          setDash, setOutfitList, setOutfitter, setEditWindow} 
+          = uiStore();
      const {outfits, addOutfit, setActiveOutfit} = outfitStore();
      const [createProj, setProjWiz] = useState(false)
+     let sortedFitObjs: { key: string, date: Date }[] =[]
 
+     outfits.map((fit:any) =>{
+          const thisKey = fit.key
+          const lastModified = new Date(fit.lastModified)
+          sortedFitObjs.push({'key':thisKey, 'date':lastModified})
+     })
+
+     sortedFitObjs.sort((a, b) => b.date.valueOf() - a.date.valueOf());
+     // console.log('First object date: '+sortedFitObjs[0].date)
+     
+     function latestProj() {
+          if(sortedFitObjs){
+               let lastFit = outfits.find((o:any) => o.key === sortedFitObjs[0].key)
+               const projName = 
+                    lastFit.name.charAt(0).toUpperCase() 
+                    + lastFit.name.slice(1)
+               const lastModified = new Date(lastFit.lastModified)
+               let dateString: string = ''
+               if(lastModified){
+                    let day, month : string = '0'
+                    day = lastModified.getDate() < 10 ? 
+                         `0${lastModified.getDate()}` :
+                         lastModified.getDate()
+                    month = lastModified.getMonth() < 9 ? 
+                         `0${lastModified.getMonth()+1}` :
+                         `${lastModified.getMonth()+1}` 
+                    dateString = day+"/"+month+"/"+lastModified.getFullYear()
+               }
+               return(
+                    <div className="glass-display">
+                         <h2 className='latest-name'>{projName}</h2>
+                         <small className='latest-date'>Last Modified: {dateString}</small>
+                         <div className="latest-btns-cont">
+                              <button className="open-profile"
+                                   onClick={()=>{
+                                        setActiveOutfit(lastFit.key)
+                                        setOutfitter()
+                                        setEditWindow(false)
+                                   }}
+                              >Show Details</button>
+                              <button className="open-proj"
+                                   onClick={()=>{
+                                        setActiveOutfit(lastFit.key)
+                                        setOutfitter()
+                                        setEditWindow(true)
+                                   }}
+                              >Open Project</button>
+                         </div>
+                    </div>
+               )
+          }
+          return(
+               <div className="glass-display"> </div>
+          )
+     }
+     
      return(
           <div className={`dash-cont 
                ${dashState? 'active':''} 
                ${outfitterState? 'inactive':''}`}
           >
-               <div className="glass-display">
-                    <button className="open-profile"
-                         onClick={()=>{
-                              setOutfitter()
-                         }}
-                    >Show Details</button>
-                    <button className="open-proj"
-                         onClick={()=>{
-                              setOutfitter()
-                         }}
-                    >Open Project</button>
-               </div>
+
+               {latestProj()}
                <div className="dash-body">
                     <div className="dash-inv-border">
                          <i 
@@ -65,33 +113,51 @@ export const Dash = () =>{
                                         </div>
                                    </div>
                               </div>
-                              {outfits.map((fit:any) =>{
+                              {sortedFitObjs.map((sorted:any) =>{
+                                   const orderedKey = sorted.key
+                                   let orderedInst = outfits.find((o:any) => o.key === orderedKey)
                                    const projName = 
-                                        fit.name.charAt(0).toUpperCase() 
-                                        + fit.name.slice(1);
-                                   const thisKey = fit.key;
-                                   console.log('Name is '+fit.name)
+                                        orderedInst.name.charAt(0).toUpperCase() 
+                                        + orderedInst.name.slice(1)
+                                   const lastModified = new Date(sorted.date)
+                                   let dateString: string = ''
+                                   if(lastModified){
+                                        let day, month : string = '0'
+                                        day = lastModified.getDate() < 10 ? 
+                                             `0${lastModified.getDate()}` :
+                                             lastModified.getDate()
+                                        month = lastModified.getMonth() < 9 ? 
+                                             `0${lastModified.getMonth()+1}` :
+                                             `${lastModified.getMonth()+1}` 
+                                        dateString = day+"/"+ month+"/" 
+                                        + lastModified.getFullYear()
+                                   }
+
+                                   console.log('Name is '+projName)
+                                   console.log(orderedKey + ' = ' + lastModified);
                                    return(
                                         <div 
                                              className="dash-card-cont"
-                                             key={thisKey}
+                                             key={orderedKey}
                                         >
                                              <div className="dash-card">
                                                   <div className="dash-card-label">
                                                        <p>{projName}</p>
-                                                       <small>Last Modified: DD/MM/YYYY</small>
+                                                       <small>Last Modified: {dateString? dateString : 'DD/MM/YYY'}</small>
                                                   </div>
                                                   <div className="dash-card-overlay">
                                                        <button className="open-proj" 
                                                             onClick={()=>{
-                                                                 setActiveOutfit(thisKey)
+                                                                 setActiveOutfit(orderedKey)
                                                                  setOutfitter()
+                                                                 setEditWindow(true)
                                                             }}
                                                        >Open Project</button>
                                                        <button className="open-profile" 
                                                             onClick={()=>{
-                                                                 setActiveOutfit(thisKey)
+                                                                 setActiveOutfit(orderedKey)
                                                                  setOutfitter()
+                                                                 setEditWindow(false)
                                                             }}
                                                        >Show Details</button>
                                                   </div>
@@ -101,43 +167,46 @@ export const Dash = () =>{
                               })}
                          </div>
                     </div>
+               </div>
 
-                    {/* Create Outfit */}
-                    <div className={`dash-create-outfit ${createProj ? 'active' : ''}`}>
-                         <h2>Create Outfit</h2>
-                         <div className="create-outfit-name-cont">
-                              <label>Outfit Name:</label>
-                              <input 
-                                   id='create-outfit-name'
-                                   type='text'
-                                   defaultValue={'untitled '+(outfits.length+1)}
-                              />
-                         </div>
-                         
-                         <div className='create-proj-btns'>
-                              <button className='create-proj-cancel'
-                                   onClick={(e) =>{
-                                        e.stopPropagation();
-                                        setProjWiz(!createProj);
-                                   }}
-                              >Cancel</button>
-                              <button className='create-proj-confirm'
-                                   onClick={(e) =>{
-                                        e.stopPropagation();
-                                        let name : string
-                                        name = (document.getElementById('create-outfit-name') as HTMLInputElement).value
-                                        if(name.length === 0){
-                                             name = 'untitled '+(outfits.length+1);
-                                        }
-                                        console.log("Proj Name: "+name);
-                                        addOutfit(name)
-                                        // setOutfitter()
-                                        setProjWiz(!createProj)
-                                   }}
-                              >Create Project</button>
-                         </div>
+               {/* Create Outfit */}
+               <div className={`dash-create-outfit ${createProj ? 'active' : ''}`}>
+                    <h2>Create Outfit</h2>
+                    <div className="create-outfit-name-cont">
+                         <label>Outfit Name:</label>
+                         <input 
+                              id='create-outfit-name'
+                              type='text'
+                              defaultValue={'untitled '+(outfits.length+1)}
+                         />
                     </div>
                     
+                    <div className='create-proj-btns'>
+                         <button className='cancel-create'
+                              onClick={(e) =>{
+                                   e.stopPropagation();
+                                   setProjWiz(!createProj);
+                              }}
+                         >Cancel</button>
+                         <button className='confirm-create'
+                              onClick={(e) =>{
+                                   e.stopPropagation();
+                                   let name : string
+                                   name = (document.getElementById('create-outfit-name') as HTMLInputElement).value
+                                   if(name.length === 0){
+                                        name = 'untitled '+(outfits.length+1);
+                                   }
+                                   console.log("Proj Name: "+name);
+                                   addOutfit(name)
+                                   setProjWiz(!createProj)
+                                   // if(sortedFitObjs[0]){
+                                   //      setActiveOutfit(sortedFitObjs[0].key)
+                                   //      setOutfitter()
+                                   //      setEditWindow(false)
+                                   // }
+                              }}
+                         >Create Project</button>
+                    </div>
                </div>
           </div>
      )

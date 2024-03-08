@@ -8,12 +8,14 @@ interface UIStates {
      dashState: boolean
      outfitList: boolean
      outfitterState: boolean
+     editWindow: boolean
      switchMenu: () => void
      setPage: (by: string) => void
      setScheme: () => void
      setDash: () => void
      setOutfitList: () => void
      setOutfitter: () => void
+     setEditWindow: (by: boolean) => void
 }
 
 // Store for the web app's UI states
@@ -26,6 +28,7 @@ export const uiStore = create<UIStates>()(
                dashState: false,
                outfitList: false,
                outfitterState: false,
+               editWindow: false,
                switchMenu: () => {
                     set((state) => ({menu: !state.menu }))
                },
@@ -44,6 +47,9 @@ export const uiStore = create<UIStates>()(
                },
                setOutfitter: () => {
                     set((state) => ({outfitterState: !state.outfitterState }))
+               },
+               setEditWindow: (window) => {
+                    set(() => ({editWindow: window }))
                },
           }),{ name: 'uistate' }
      )

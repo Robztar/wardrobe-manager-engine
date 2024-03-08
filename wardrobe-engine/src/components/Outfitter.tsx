@@ -1,11 +1,47 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Sky, OrbitControls, SoftShadows } from "@react-three/drei"
-import { Model } from './Model';
+import { OrbitControls, SoftShadows } from "@react-three/drei"
+// import { Model } from './Model';
 import { TestModel } from './TestModel';
-// import { outfitStore } from "../hooks/robeStore"
 import { outfitStore } from "../hooks/outfitStore"
 import { uiStore } from "../hooks/uiStore"
+
+const DeleteWindow = ({...props}:any) =>{
+     const delProj = props.delProj
+     const fitKey = props.fitKey
+     const delProjWiz = props.delProjWiz
+     const setActiveOutfit = props.setActiveOutfit
+     const delOutfit = props.delOutfit
+     const setOutfitter = props.setOutfitter
+     const setEditWindow = props.setEditWindow
+     console.log(delProj)
+
+     return(
+          <div className={`del-outfit-window ${delProj ? 'active' : ''}`}>
+               <h2>Delete Outfit</h2>
+               <p>Are you sure you want to delete this project?</p>
+               
+               <div className='del-proj-btns'>
+                    <button className='cancel-del'
+                         onClick={(e) =>{
+                              e.stopPropagation();
+                              props.delProjWiz(!delProj);
+                         }}
+                    >Cancel</button>
+                    <button className='confirm-del'
+                         onClick={(e) =>{
+                              e.stopPropagation();
+                              delProjWiz(!delProj);
+                              setActiveOutfit('')
+                              delOutfit(fitKey)
+                              setOutfitter()
+                              setEditWindow(false)
+                         }}
+                    >Delete Project</button>
+               </div>
+          </div>
+     )
+}
 
 function Ground(){
      return(
@@ -17,46 +53,83 @@ function Ground(){
 }
 
 export const Outfitter = () =>{
-     const {outfitterState, setOutfitter} = uiStore()
-     const {outfits, activeOutfit, setActiveOutfit, delOutfit} = outfitStore()
+     const {outfitterState, editWindow, setOutfitter, setEditWindow} = uiStore()
+     const {outfits, activeOutfit, setActiveOutfit, setModifyDate, delOutfit} = outfitStore()
+     const [delProj, delProjWiz] = useState(false)
      let fitInstance = outfits.find((o:any) => o.key === activeOutfit)
-     const [editWindow, setEditWindow] = useState(false)
-     let fitKey: string
+     let fitKey: string = ''
      let fitName: string = 'No Name'
+     let dateCreated: Date = new Date("2000-01-01");
+     let lastModified: Date = new Date("2000-01-01");
+     let startDateString, lastDateString: string = ''
 
      if(fitInstance){
+          let initDay, initMonth, lastDay, lastMonth  : string = '0'
           fitKey = fitInstance.key
           fitName = fitInstance.name.charAt(0).toUpperCase() + fitInstance.name.slice(1)
-          console.log('Outfit Key: '+ fitKey+'Outfit Name: '+ fitName)
+          dateCreated = new Date(fitInstance.dateCreated)
+          lastModified = new Date(fitInstance.lastModified)
+          
+          initDay = dateCreated.getDate() < 10 ? 
+               `0${dateCreated.getDate()}` :
+               dateCreated.getDate()
+          initMonth = dateCreated.getMonth() < 9 ? 
+               `0${dateCreated.getMonth()+1}` :
+               `${dateCreated.getMonth()+1}` 
+
+          startDateString = initDay+"/"+ initMonth+"/" 
+          + lastModified.getFullYear()
+
+          lastDay = lastModified.getDate() < 10 ? 
+               `0${lastModified.getDate()}` :
+               lastModified.getDate()
+          lastMonth = lastModified.getMonth() < 9 ? 
+               `0${lastModified.getMonth()+1}` :
+               `${lastModified.getMonth()+1}` 
+
+          lastDateString = lastDay+"/"+ lastMonth+"/" 
+          + lastModified.getFullYear()
+
+          // console.log('Outfit Key: '+ fitKey+'. Outfit Name: '+ fitName)
+          // console.log('Outfit Created: '+ dateCreated +'. Outfit Modified: '+ lastModified)
+          // console.log('Outfit Date String: '+ dateString)
      }
-     // console.log('Outfit Instance: '+fitInstance)
 
      return(
           <div className={`fitter-cont ${outfitterState? 'active':''}`}>
                <div className={`outfit-profile ${editWindow? '':'active'}`}>
                     <div className='profile-sidebar-cont'>
                          <div className="profile-sidebar">
-                              <h2 className="outfit-name">{fitName}</h2>
-                              <div className="outfit-date">DD/MM/YYY</div>
-                              <button 
-                                   className="outfit-open"
-                                   onClick={()=>{
-                                        setEditWindow(true)
-                                   }}
-                              >Open Project</button>
-                              <i className='far fa-edit fit-proj-edit' 
-                                   onClick={()=>{
-
-                              }}></i>
-                              <i className="fas fa-trash del-outfit"
-                                   onClick={()=>{
-                                        setActiveOutfit('')
-                                        delOutfit(fitKey)
-                                        setOutfitter()
-                                        setEditWindow(false)
-                                   }}
-                              ></i>
-                              <div className="outfit-details"></div>
+                              <div className="profile-labels">
+                                   <h2 className="outfit-name">
+                                        {fitName}
+                                        <i className='far fa-edit fit-proj-edit' 
+                                             onClick={()=>{}}></i>
+                                   </h2>
+                                   <small className="outfit-date">Last Modified: {lastDateString}</small>
+                              </div>
+                              <div className="profile-btns">
+                                   <button 
+                                        className="outfit-open"
+                                        onClick={()=>{
+                                             setEditWindow(true)
+                                        }}
+                                   >Open Project</button>
+                                   <div className="profile-ctrls">
+                                        <i className="fas fa-gear outfit-set"
+                                             onClick={()=>{}}
+                                        ></i>
+                                        <i className="fas fa-trash del-outfit"
+                                             onClick={()=>{
+                                                  delProjWiz(!delProj)
+                                             }}
+                                        ></i>
+                                   </div>
+                                   
+                              </div>
+                              <div className="outfit-details">
+                                   <small className="outfit-date">Date Created: {startDateString}</small>
+                              </div>
                          </div>
                     </div>
                     <div className='profile-body-cont'>
@@ -86,16 +159,12 @@ export const Outfitter = () =>{
                     </h3>
                     <i className="far fa-times-circle close-outfitter"
                          onClick={()=>{
-                              // setOutfitter()
-                              // setActiveOutfit('')
+                              setModifyDate(new Date(), fitKey)
                               setEditWindow(false)
                          }}
                     ></i>
                </div>
                <Canvas id='outfit-canvas' className={`${editWindow? 'active':''}`}>
-                    {/* <Sky sunPosition={[30, 30, 20]} />
-                    <ambientLight />
-                    <pointLight castShadow intensity={0.7} position={[-2, 1, 1]} /> */}
                     <color attach="background" args={["#f0f0f0"]} />
                     <fog attach="fog" args={["#f0f0f0", 0, 20]} />
                     <ambientLight intensity={1} />
@@ -103,7 +172,6 @@ export const Outfitter = () =>{
                     <OrbitControls minPolarAngle={-Math.PI/2} maxPolarAngle={Math.PI/2} />
                     {/* <Model /> */}
                     {outfits.map((fit: any) =>{
-                         // console.log("Outfit key: "+selKey);
                          const thisKey = fit.key;
                               
                          if(fitKey === thisKey){
@@ -123,6 +191,15 @@ export const Outfitter = () =>{
                     <SoftShadows size={40} samples={16} />
                     <Ground />
                </Canvas> 
+               <DeleteWindow
+                    delProj={delProj}
+                    fitKey = {fitKey}
+                    delProjWiz = {delProjWiz}
+                    setActiveOutfit = {setActiveOutfit}
+                    delOutfit = {delOutfit}
+                    setOutfitter = {setOutfitter}
+                    setEditWindow = {setEditWindow}
+               />
           </div>
      )
 }
