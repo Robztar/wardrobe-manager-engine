@@ -8,6 +8,7 @@ interface OutfitStates {
      addOutfit: (n: string) => void
      setActiveOutfit: (id: string) => void
      setModifyDate: (d: Date, id: string) => void
+     setThumbnail: (t: string, id: string) => void
      delOutfit: (id: string) => void
 }
 
@@ -27,6 +28,7 @@ export const outfitStore = create<OutfitStates>()(
                                    name: name,         // outfit name
                                    dateCreated: new Date(),         // date created
                                    lastModified: new Date(),         // date last modified
+                                   thumbnail: '',         // screenshot of the up to date project
                               },
                          ]
                     }))
@@ -39,6 +41,15 @@ export const outfitStore = create<OutfitStates>()(
                          outfits: state.outfits.map((outfit:any) =>
                               outfit.key === id
                                    ? ({...outfit, lastModified: newDate})
+                                   : outfit
+                         ),
+                    }))
+               },
+               setThumbnail: (newThumb, id) =>{
+                    set((state) =>({
+                         outfits: state.outfits.map((outfit:any) =>
+                              outfit.key === id
+                                   ? ({...outfit, thumbnail: newThumb})
                                    : outfit
                          ),
                     }))

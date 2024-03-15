@@ -1,43 +1,6 @@
-// import React from "react";
-// import * as THREE from 'three';
-// import { outfitStore } from "../hooks/outfitStore"
-
-// import { Shiba } from '../3d-models/Shiba_deadpool'
-
-// export const TestModel = ({ unique }: { unique: string }) =>{
-//      const {outfits} = outfitStore()
-//      let modelInstance = outfits.find((o:any) => o.key === unique)
-     
-//      let dimensions = [2,2,2]
-//      let box = new THREE.BoxGeometry(
-//           dimensions[0],dimensions[1],dimensions[2]
-//      );
-     
-//      return(
-//           <group
-//                position={[0,0,0]}
-//                // rotation={[0,0,0]}
-//           >
-//                <mesh>
-//                     <primitive object={box} attach="geometry" />
-//                     <meshStandardMaterial 
-//                          attach={'material'} 
-//                          color={'hotpink'}
-//                          // color={color}
-//                          // map={texture}
-//                          opacity={0.8}
-//                          transparent={true}
-//                     />
-//                </mesh>
-//           </group>
-//      )
-// }
-
 import { useEffect } from "react"
-import { useFrame } from "@react-three/fiber"
-import { useGLTF, useAnimations, useScroll } from "@react-three/drei"
+import { useGLTF, useAnimations } from "@react-three/drei"
 import { Group, SkinnedMesh } from "three";
-import * as THREE from 'three'
 
 import { outfitStore } from "../hooks/outfitStore"
 
@@ -49,7 +12,7 @@ import { outfitStore } from "../hooks/outfitStore"
                //  - https://blog.logrocket.com/configure-3d-models-react-three-fiber/
 
 // More help with gltf/glb models
-//   R3F (50mins)   - https://www.youtube.com/watch?v=2jwqotdQmdQ
+//   R3F            - https://www.youtube.com/watch?v=2jwqotdQmdQ
 //   Three.js       - https://www.youtube.com/watch?v=WBe3xrV4CPM
 //   R3F Typescript - https://www.youtube.com/watch?v=tBSbgRRpNzI
 //   R3F animation  - https://codesandbox.io/p/sandbox/gltf-animations-tied-to-scroll-hg3ejl?file=%2Fsrc%2FApp.js%3A8%2C53-8%2C74
@@ -69,13 +32,13 @@ export const TestModel = ({ unique }: { unique: string }) =>{
           }
      }, []);
 
-     // const bodyMesh = nodes.Ch03.getObjectByName("Ch03_Body") as SkinnedMesh;
-     // const bodyMesh = (nodes.Ch03.getObjectByName("Ch03_Body") as THREE.Mesh)
+     const bodyMesh = (nodes.Ch03 as SkinnedMesh)
+     // console.log('BodyMesh: '+JSON.stringify(bodyMesh, null, 4))
 
      return (
           <group 
                // {...props} 
-               position={[0, -1, 0]} 
+               position={[0, -2, 0]} 
                rotation={[Math.PI / 2, 0, 0]} 
                scale={0.02}
                ref={ref as React.Ref<Group>}
@@ -83,12 +46,10 @@ export const TestModel = ({ unique }: { unique: string }) =>{
                <primitive object={nodes.mixamorigHips} />
                <skinnedMesh 
                     castShadow 
-                    receiveShadow 
-                    geometry={nodes.Ch03.geometry}
+                    receiveShadow
+                    geometry={bodyMesh.geometry}
                     material={materials.Ch03_Body}
-                    skeleton={nodes.Ch03.skeleton}
-                    // geometry={bodyMesh.geometry} 
-                    // skeleton={bodyMesh.skeleton} 
+                    skeleton={bodyMesh.skeleton}
                />
           </group>
      )

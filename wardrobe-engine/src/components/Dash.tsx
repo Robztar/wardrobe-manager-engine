@@ -20,6 +20,7 @@ export const Dash = () =>{
      sortedFitObjs.sort((a, b) => b.date.valueOf() - a.date.valueOf());
      // console.log('First object date: '+sortedFitObjs[0].date)
      
+     // Glass Display Logic
      function latestProj() {
           if(sortedFitObjs){
                let lastFit = outfits.find((o:any) => o.key === sortedFitObjs[0].key)
@@ -38,8 +39,9 @@ export const Dash = () =>{
                          `${lastModified.getMonth()+1}` 
                     dateString = day+"/"+month+"/"+lastModified.getFullYear()
                }
+               const lastThumbnail = lastFit.thumbnail
                return(
-                    <div className="glass-display">
+                    <div className="glass-display" style={{ backgroundImage: `url(${lastThumbnail})` }}>
                          <h2 className='latest-name'>{projName}</h2>
                          <small className='latest-date'>Last Modified: {dateString}</small>
                          <div className="latest-btns-cont">
@@ -72,7 +74,10 @@ export const Dash = () =>{
                ${outfitterState? 'inactive':''}`}
           >
 
+               {/* Glass Display Reference */}
                {latestProj()}
+
+               {/* Dashboard Body */}
                <div className="dash-body">
                     <div className="dash-inv-border">
                          <i 
@@ -101,6 +106,7 @@ export const Dash = () =>{
                               ></i>
                          </div>
                          <div className="dash-outfits-cont">
+                              {/* Create Outfit Card */}
                               <div className="dash-card-cont">
                                    <div 
                                         className="dash-card create-card"
@@ -108,11 +114,13 @@ export const Dash = () =>{
                                              setProjWiz(!createProj)
                                         }}
                                    >
+                                        <i className="fa-regular fa-square-plus"></i>
                                         <div className="dash-card-label">
                                              <p>Create Project</p>
                                         </div>
                                    </div>
                               </div>
+                              {/* Outfit Cardlist */}
                               {sortedFitObjs.map((sorted:any) =>{
                                    const orderedKey = sorted.key
                                    let orderedInst = outfits.find((o:any) => o.key === orderedKey)
@@ -132,6 +140,7 @@ export const Dash = () =>{
                                         dateString = day+"/"+ month+"/" 
                                         + lastModified.getFullYear()
                                    }
+                                   const projThumbnail = orderedInst.thumbnail
 
                                    console.log('Name is '+projName)
                                    console.log(orderedKey + ' = ' + lastModified);
@@ -140,21 +149,33 @@ export const Dash = () =>{
                                              className="dash-card-cont"
                                              key={orderedKey}
                                         >
-                                             <div className="dash-card">
+                                             <div 
+                                                  className="dash-card"
+                                                  style={{ backgroundImage: `url(${projThumbnail})` }}
+                                             >
                                                   <div className="dash-card-label">
                                                        <p>{projName}</p>
                                                        <small>Last Modified: {dateString? dateString : 'DD/MM/YYY'}</small>
                                                   </div>
-                                                  <div className="dash-card-overlay">
+                                                  <div 
+                                                       className="dash-card-overlay"
+                                                       onClick={()=>{
+                                                            setActiveOutfit(orderedKey)
+                                                            setOutfitter()
+                                                            setEditWindow(false)
+                                                       }}
+                                                  >
                                                        <button className="open-proj" 
-                                                            onClick={()=>{
+                                                            onClick={(e)=>{
+                                                                 e.stopPropagation()
                                                                  setActiveOutfit(orderedKey)
                                                                  setOutfitter()
                                                                  setEditWindow(true)
                                                             }}
                                                        >Open Project</button>
                                                        <button className="open-profile" 
-                                                            onClick={()=>{
+                                                            onClick={(e)=>{
+                                                                 e.stopPropagation()
                                                                  setActiveOutfit(orderedKey)
                                                                  setOutfitter()
                                                                  setEditWindow(false)

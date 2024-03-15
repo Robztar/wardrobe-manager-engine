@@ -87,8 +87,36 @@ button:focus, button:focus-visible {
   width: 100vw;
   height: 4rem;
   z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #000020;
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3764705882);
+}
+
+.back-to-dash {
+  display: none;
+  margin-right: 2rem;
+  height: 3rem;
+  width: 3rem;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: solid 3px #e0fcff;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.back-to-dash:hover {
+  color: #ff6666;
+  border: solid 3px #ff6666;
+  transition: 0.25s;
+}
+
+.back-to-dash.active {
+  display: flex;
 }
 
 .navbar-cont {
@@ -105,7 +133,7 @@ button:focus, button:focus-visible {
   padding-top: 5rem;
   border-top-right-radius: 2rem;
   border-bottom-right-radius: 2rem;
-  background: rgba(0, 0, 32, 0.1882352941);
+  background: rgba(0, 0, 32, 0.3137254902);
   -webkit-backdrop-filter: blur(4px);
           backdrop-filter: blur(4px);
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.5019607843);
@@ -281,7 +309,7 @@ button:focus, button:focus-visible {
   align-items: flex-start;
   justify-content: center;
   padding-left: 5rem;
-  background: rgba(224, 252, 255, 0.1882352941);
+  background-position: center;
   color: #000020;
   -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
@@ -425,14 +453,16 @@ button:focus, button:focus-visible {
 }
 
 .dash-card {
-  background: white;
+  background-position: center;
+  background-size: auto 15rem;
   height: 10rem;
   width: 10rem;
   border-radius: 20px;
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3137254902);
   display: flex;
-  align-items: end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
   box-sizing: border-box;
   transition: 0.5s;
 }
@@ -442,7 +472,6 @@ button:focus, button:focus-visible {
   height: 10rem;
   width: 10rem;
   background: transparent;
-  visibility: hidden;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 2rem 0;
@@ -461,14 +490,13 @@ button:focus, button:focus-visible {
   height: 11.5rem;
   width: 11.5rem;
   border-radius: 10px;
+  filter: brightness(75%);
   box-shadow: 2px 2px 16px rgba(0, 0, 32, 0.3137254902);
   transition: 0.5s;
 }
 .dash-card:hover .dash-card-overlay {
   height: 11.5rem;
   width: 11.5rem;
-  visibility: visible;
-  background: rgba(0, 0, 32, 0.1882352941);
   border-radius: 10px;
   transition: 0.5s;
 }
@@ -484,9 +512,10 @@ button:focus, button:focus-visible {
 .dash-card-label p {
   margin: 0;
   font-size: 0.95rem;
+  font-weight: 600;
 }
 .dash-card-label small {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .open-proj {
@@ -616,7 +645,22 @@ button:focus, button:focus-visible {
 }
 
 .create-card {
+  background: white;
   cursor: pointer;
+}
+.create-card i {
+  color: #c9faff;
+  font-size: 7rem;
+  transition: 0.5s;
+}
+
+.create-card:hover {
+  filter: brightness(85%);
+}
+.create-card:hover i {
+  color: #c9faff;
+  font-size: 8.05rem;
+  transition: 0.5s;
 }
 
 .dash-create-outfit {
@@ -718,8 +762,14 @@ button:focus, button:focus-visible {
   grid-template-columns: 30% 70%;
 }
 
-.close-outfitter {
+.close-edit-window {
+  color: #000020;
+  transition: 0.25s;
+}
+
+.close-edit-window:hover {
   color: #ff6666;
+  transition: 0.25s;
 }
 
 .del-outfit {
@@ -727,6 +777,7 @@ button:focus, button:focus-visible {
 }
 
 .profile-sidebar-cont {
+  box-sizing: border-box;
   padding: 1rem;
 }
 
@@ -889,21 +940,20 @@ button:focus, button:focus-visible {
 .profile-body-cont {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-}
-.profile-body-cont .close-outfitter {
-  align-self: flex-end;
-  height: 3.25rem;
-  width: 3.25rem;
-  font-size: 2.25rem;
-  display: grid;
-  place-content: center;
-  cursor: pointer;
+  box-sizing: border-box;
+  height: calc(100vh - 4rem);
+  padding: 0.5rem 1rem 1rem;
 }
 
 .profile-body {
-  background: yellow;
+  box-sizing: border-box;
   height: 100%;
+  width: calc(70vw - 2rem);
+}
+
+.outfit-thumbnail {
+  width: 100%;
+  height: auto;
 }
 
 .fitter-nav {

@@ -92,10 +92,34 @@ button:focus, button:focus-visible { outline: none; }
      width: 100vw;
      height: 4rem;
      z-index: 4;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
      background: $dark;
      // background: #e0fcff80;
      box-shadow: 2px 2px 16px #00002060;
 }
+.back-to-dash{
+     display: none;
+     // background: red;
+     margin-right: 2rem;
+     height: 3rem;
+     width: 3rem;
+     font-size: 2rem;
+     align-items: center;
+     justify-content: center;
+     border-radius: 50%;
+     box-sizing: border-box;
+     border: solid 3px $light;
+     transition: 0.25s;
+     cursor: pointer;
+}
+.back-to-dash:hover{
+     color: #ff6666;
+     border: solid 3px #ff6666;
+     transition: 0.25s;
+}
+.back-to-dash.active{display: flex;}
 // -- Navbar Styling
 .navbar-cont{
      position: absolute;
@@ -112,7 +136,7 @@ button:focus, button:focus-visible { outline: none; }
      border-top-right-radius: 2rem;
      border-bottom-right-radius: 2rem;
 
-     background: #00002030;
+     background: #00002050;
      backdrop-filter: blur(4px);
      box-shadow: 2px 2px 16px #00002080;
      transition: 0.5s;
@@ -266,7 +290,8 @@ button:focus, button:focus-visible { outline: none; }
      // gap: 3vw;
      padding-left: 5rem;
 
-     background: #e0fcff30;
+     // background: #e0fcff30;
+     background-position: center;
      color: $dark;
      backdrop-filter: blur(1px);
      transition: 0.75s ease-in-out;
@@ -402,15 +427,17 @@ button:focus, button:focus-visible { outline: none; }
 }
 
 .dash-card{
-     background: white;
+     // background: white;
+     background-position: center;
+     background-size: auto 15rem;
      height: 10rem;
      width: 10rem;
      border-radius: 20px;
      box-shadow: 2px 2px 16px #00002050;
      display: flex;
-     
-     align-items: end;
-     justify-content: center;
+     flex-direction: column;
+     align-items: center;
+     justify-content: end;
      box-sizing: border-box;
      transition: 0.5s;
 }
@@ -419,7 +446,7 @@ button:focus, button:focus-visible { outline: none; }
      height: 10rem;
      width: 10rem;
      background: transparent;
-     visibility: hidden;
+     // visibility: hidden;
      border-radius: 20px;
 
      box-sizing: border-box;
@@ -436,14 +463,17 @@ button:focus, button:focus-visible { outline: none; }
      height: 11.5rem;
      width: 11.5rem;
      border-radius: 10px;
+     filter: brightness(75%);
      box-shadow: 2px 2px 16px #00002050;
      transition: 0.5s;
 
      .dash-card-overlay{
           height: 11.5rem;
           width: 11.5rem;
-          visibility: visible;
-          background: #00002030;
+          // visibility: visible;
+          // background: #00002030;
+          // filter: brightness(20%);
+          // backdrop-filter: brightness(80%);
           border-radius: 10px;
           transition: 0.5s;
           button{ visibility: visible; }
@@ -456,9 +486,10 @@ button:focus, button:focus-visible { outline: none; }
      p{
           margin: 0;
           font-size: 0.95rem;
+          font-weight: 600;
      }
      small{
-          font-size: 0.8rem;
+          font-size: 0.75rem;
      }
 }
 // - Project buttons
@@ -585,8 +616,23 @@ button:focus, button:focus-visible { outline: none; }
      }
 }
 .create-card{
+     background: white;
      cursor: pointer;
+     i{
+          color: #c9faff;
+          font-size: 7rem;
+          transition: 0.5s;
+     }
 }
+.create-card:hover{ 
+     filter: brightness(85%); 
+     i{
+          color: #c9faff;
+          font-size: 8.05rem;
+          transition: 0.5s;
+     }
+}
+
 .dash-create-outfit{
      z-index: 5;
      display: none;
@@ -678,11 +724,18 @@ button:focus, button:focus-visible { outline: none; }
      display: none;
      grid-template-columns: 30% 70%;
 }
-.close-outfitter{ color: #ff6666; }
+.close-edit-window{ 
+     color: $dark; 
+     transition: 0.25s;
+}
+.close-edit-window:hover{ 
+     color: #ff6666; 
+     transition: 0.25s;
+}
 .del-outfit{ color: red; }
 .profile-sidebar-cont{
      // background: chocolate;
-     // box-sizing: border-box;
+     box-sizing: border-box;
      padding: 1rem;
 }
 
@@ -827,24 +880,22 @@ button:focus, button:focus-visible { outline: none; }
 .profile-body-cont{
      display: flex;
      flex-direction: column;
-     .close-outfitter{
-          align-self: flex-end;
-          height: 3.25rem;
-          width: 3.25rem;
-          font-size: 2.25rem;
-          display: grid;
-          place-content: center;
-          cursor: pointer;
-     }
      // background: chartreuse;
-     // box-sizing: border-box;
-     padding: 1rem;
+     box-sizing: border-box;
+     height: calc(100vh - 4rem);
+     padding: 0.5rem 1rem 1rem;
 }
 
 .profile-body{
-     background: yellow;
+     // background: yellow;
+     box-sizing: border-box;
+     // overflow-y: auto;
      height: 100%;
-     // box-shadow: 0 0 15px #00002060;
+     width: calc(70vw - 2rem);
+}
+.outfit-thumbnail{
+     width: 100%;
+     height: auto;
 }
 
 .fitter-nav{

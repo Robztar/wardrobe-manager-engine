@@ -5,6 +5,8 @@ import { OrbitControls, SoftShadows } from "@react-three/drei"
 import { TestModel } from './TestModel';
 import { outfitStore } from "../hooks/outfitStore"
 import { uiStore } from "../hooks/uiStore"
+import { getThumbnail } from '../functions/getThumbnail';
+
 
 const DeleteWindow = ({...props}:any) =>{
      const delProj = props.delProj
@@ -14,7 +16,7 @@ const DeleteWindow = ({...props}:any) =>{
      const delOutfit = props.delOutfit
      const setOutfitter = props.setOutfitter
      const setEditWindow = props.setEditWindow
-     console.log(delProj)
+     // console.log(delProj)
 
      return(
           <div className={`del-outfit-window ${delProj ? 'active' : ''}`}>
@@ -45,7 +47,7 @@ const DeleteWindow = ({...props}:any) =>{
 
 function Ground(){
      return(
-          <mesh position={[0,-1,0]} rotation={[-Math.PI/2, 0, 0]}>
+          <mesh position={[0,-2,0]} rotation={[-Math.PI/2, 0, 0]}>
                <planeGeometry attach={'geometry'} args={[100,100]}/>
                <meshLambertMaterial attach={'material'} color={'white'} />
           </mesh>
@@ -54,14 +56,17 @@ function Ground(){
 
 export const Outfitter = () =>{
      const {outfitterState, editWindow, setOutfitter, setEditWindow} = uiStore()
-     const {outfits, activeOutfit, setActiveOutfit, setModifyDate, delOutfit} = outfitStore()
+     const {outfits, activeOutfit, setActiveOutfit, setModifyDate, setThumbnail, delOutfit} = outfitStore()
      const [delProj, delProjWiz] = useState(false)
+
+     
      let fitInstance = outfits.find((o:any) => o.key === activeOutfit)
      let fitKey: string = ''
      let fitName: string = 'No Name'
      let dateCreated: Date = new Date("2000-01-01");
      let lastModified: Date = new Date("2000-01-01");
      let startDateString, lastDateString: string = ''
+     let fitThumbnail: string = ''
 
      if(fitInstance){
           let initDay, initMonth, lastDay, lastMonth  : string = '0'
@@ -90,13 +95,16 @@ export const Outfitter = () =>{
           lastDateString = lastDay+"/"+ lastMonth+"/" 
           + lastModified.getFullYear()
 
+          fitThumbnail = fitInstance.thumbnail
           // console.log('Outfit Key: '+ fitKey+'. Outfit Name: '+ fitName)
           // console.log('Outfit Created: '+ dateCreated +'. Outfit Modified: '+ lastModified)
           // console.log('Outfit Date String: '+ dateString)
+          // console.log('The image in state '+ fitInstance.thumbnail)
      }
 
      return(
           <div className={`fitter-cont ${outfitterState? 'active':''}`}>
+               {/* Outfit Detail Window */}
                <div className={`outfit-profile ${editWindow? '':'active'}`}>
                     <div className='profile-sidebar-cont'>
                          <div className="profile-sidebar">
@@ -133,38 +141,42 @@ export const Outfitter = () =>{
                          </div>
                     </div>
                     <div className='profile-body-cont'>
-                         <i className="far fa-times-circle close-outfitter"
-                              onClick={()=>{
-                                   setOutfitter()
-                                   setActiveOutfit('')
-                              }}
-                         ></i>
                          <div className='profile-body'>
-                              
-                              <img className="outfit-thumbnail" alt='project image'></img>
+                              <img 
+                                   className="outfit-thumbnail" 
+                                   src={fitThumbnail}
+                                   alt='project image'
+                              />
                          </div>
                     </div>
                </div>
+
+               {/* Edit Window */}
                <div className={`fitter-nav ${editWindow? 'active':''}`}>
                     <i className="fas fa-trash del-outfit"
                          onClick={()=>{
-                              setActiveOutfit('')
-                              delOutfit(fitKey)
-                              setOutfitter()
-                              setEditWindow(false)
+                              delProjWiz(!delProj)
                          }}
                     ></i>
-                    <h3 className='nav-outfit-name'>
+                    <h3 
+                         className='nav-outfit-name'
+                         onClick={()=>{
+                              getThumbnail(fitKey, setThumbnail)
+                         }}
+                    >
                          {fitName}
                     </h3>
-                    <i className="far fa-times-circle close-outfitter"
+                    <i className="far fa-times-circle close-edit-window"
                          onClick={()=>{
                               setModifyDate(new Date(), fitKey)
+                              getThumbnail(fitKey, setThumbnail)
                               setEditWindow(false)
                          }}
                     ></i>
                </div>
-               <Canvas id='outfit-canvas' className={`${editWindow? 'active':''}`}>
+               <Canvas id='outfit-canvas' className={`${editWindow? 'active':''}`}
+                    gl={{ preserveDrawingBuffer: true }}
+               >
                     <color attach="background" args={["#f0f0f0"]} />
                     <fog attach="fog" args={["#f0f0f0", 0, 20]} />
                     <ambientLight intensity={1} />
@@ -191,6 +203,8 @@ export const Outfitter = () =>{
                     <SoftShadows size={40} samples={16} />
                     <Ground />
                </Canvas> 
+
+               {/* Delete Project Pop-up */}
                <DeleteWindow
                     delProj={delProj}
                     fitKey = {fitKey}
