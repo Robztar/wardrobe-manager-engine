@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, SoftShadows } from "@react-three/drei"
-// import { Model } from './Model';
+import { Model } from './Model';
 import { TestModel } from './TestModel';
 import { outfitStore } from "../hooks/outfitStore"
 import { uiStore } from "../hooks/uiStore"
@@ -174,28 +174,29 @@ export const Outfitter = () =>{
                          }}
                     ></i>
                </div>
-               <Canvas id='outfit-canvas' className={`${editWindow? 'active':''}`}
+               <Canvas id='outfit-canvas' 
+                    className={`${editWindow? 'active':''}`}
                     gl={{ preserveDrawingBuffer: true }}
                >
                     <color attach="background" args={["#f0f0f0"]} />
                     <fog attach="fog" args={["#f0f0f0", 0, 20]} />
-                    <ambientLight intensity={1} />
-                    <directionalLight intensity={5} position={[-5, 5, 5]} castShadow shadow-mapSize={2048} shadow-bias={-0.0001} />
+                    <ambientLight intensity={5} />
+                    <directionalLight intensity={5} position={[-5, 3, 5]} castShadow shadow-mapSize={2048} shadow-bias={-0.0001} />
+                    <directionalLight intensity={5} position={[10, 3, -5]} castShadow shadow-mapSize={2048} shadow-bias={-0.0001} />
                     <OrbitControls minPolarAngle={-Math.PI/2} maxPolarAngle={Math.PI/2} />
-                    {/* <Model /> */}
                     {outfits.map((fit: any) =>{
                          const thisKey = fit.key;
                               
                          if(fitKey === thisKey){
                               return(
-                                   // <Model 
-                                   //      key = {thisKey}
-                                   //      unique = {thisKey}
-                                   // />
-                                   <TestModel 
+                                   <Model 
                                         key = {thisKey}
                                         unique = {thisKey}
                                    />
+                                   // <TestModel 
+                                   //      key = {thisKey}
+                                   //      unique = {thisKey}
+                                   // />
                               )
                          }
                          return null;
